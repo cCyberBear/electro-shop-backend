@@ -11,7 +11,7 @@ exports.register = catchAsync(async (req, res) => {
     {
       email,
       username,
-      user: user.role,
+      role: user.role,
     },
     process.env.JWT_KEY,
     {
@@ -51,7 +51,14 @@ exports.login = catchAsync(async (req, res) => {
     token,
   });
 });
-
+exports.me = catchAsync(async (req, res) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const data = jsonwebtoken.verify(token, process.env.JWT_KEY);
+  res.json({
+    success: true,
+    user: data,
+  });
+});
 exports.changePassword = catchAsync(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const email = req.user.email;

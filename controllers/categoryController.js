@@ -12,12 +12,11 @@ exports.create = catchAsync(async (req, res) => {
 });
 
 exports.getAll = catchAsync(async (req, res) => {
-  const categories = await Category.find();
-  const subCategories = await SubCategory.find();
-
+  const categories = await Category.find().lean();
+  const subCategories = await SubCategory.find().lean();
   const newCat = categories.map((cat) => {
     return {
-      ...categories,
+      ...cat,
       subCategory: subCategories.filter(
         (sub) => sub.category.toString() === cat._id.toString()
       ),

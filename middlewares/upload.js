@@ -9,13 +9,13 @@ const fileFilter = (req, file, cb) => {
   if (regex.test(fileExtension)) {
     cb(null, true);
   } else {
-    cb(new Error("file extension is noy allow"), false);
+    cb(new Error("file extension is not allow"), false);
   }
 };
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../upload"));
+    cb(null, path.join(__dirname, "../uploads"));
   },
   filename: (req, file, cb) => {
     cb(

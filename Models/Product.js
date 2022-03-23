@@ -2,29 +2,45 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const ProductSchema = new Schema({
-  name: {
-    type: String,
-    required: [true, "name is required"],
-    minlength: [12, "Must be at least 3 characters"],
-    unique: [true, "This product is already existed"],
+const ProductSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "name is required"],
+      unique: [true, "This product is already existed"],
+    },
+    retailPrice: {
+      type: Number,
+      required: [true, "retailPrice is required"],
+    },
+    forSale: {
+      type: Number,
+      required: [true, "forSale is required"],
+    },
+    subCategory: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "SubCategory",
+      },
+    ],
+    quantity: {
+      type: Number,
+      default: 1000,
+    },
+    description: {
+      type: String,
+    },
+
+    img: {
+      type: String,
+      required: [true, "img is required"],
+    },
   },
-  retailPrice: {
-    type: Number,
-    required: [true, "retailPrice is required"],
-  },
-  forSale: {
-    type: Number,
-    required: [true, "forSale is required"],
-  },
-  subCategory: {
-    type: Schema.Types.ObjectId,
-    ref: "SubCategory",
-  },
-  quantity: {
-    type: Number,
-    default: 1000,
-  },
-});
+  {
+    toJSON: {
+      virtuals: true,
+    },
+  }
+);
 
 module.exports = mongoose.model("Product", ProductSchema);
