@@ -27,7 +27,6 @@ exports.register = catchAsync(async (req, res) => {
 
 exports.login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password);
   const isExisted = await User.findOne({ email });
   if (!isExisted) {
     throw new ApiError(404, "email or password is incorrect");

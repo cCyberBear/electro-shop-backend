@@ -18,8 +18,8 @@ const ProductSchema = new Schema({
     required: [true, "forSale is required"],
   },
   subCategory: {
-    type: String,
-    required: [true, "type is required"],
+    type: Schema.Types.ObjectId,
+    ref: "SubCategory",
   },
   quantity: {
     type: Number,
