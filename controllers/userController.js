@@ -1,6 +1,6 @@
 const jsonwebtoken = require("jsonwebtoken");
 const catchAsync = require("../middlewares/async");
-const ApiError = require("../utility/apiError");
+const apiError = require("../utility/apiError");
 const User = require("../Models/User");
 const bcryptjs = require("bcryptjs");
 
@@ -29,11 +29,11 @@ exports.login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
   const isExisted = await User.findOne({ email });
   if (!isExisted) {
-    throw new ApiError(404, "email or password is incorrect");
+    throw new apiError(404, "email or password is incorrect");
   }
   const isMatch = bcryptjs.compareSync(password, isExisted.password);
   if (!isMatch) {
-    throw new ApiError(404, "email or password is incorrect");
+    throw new apiError(404, "email or password is incorrect");
   }
   const token = jsonwebtoken.sign(
     {
@@ -65,7 +65,7 @@ exports.changePassword = catchAsync(async (req, res) => {
   const user = await User.findOne({ email });
   const isMatch = bcryptjs.compareSync(oldPassword, user.password);
   if (!isMatch) {
-    throw new ApiError(400, "Incorrect password");
+    throw new apiError(400, "Incorrect password");
   }
   user.password = newPassword;
   await user.save();
