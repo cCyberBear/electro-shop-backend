@@ -24,7 +24,7 @@ exports.createProduct = catchAsync(async (req, res) => {
 });
 
 exports.getAll = catchAsync(async (req, res) => {
-  const products = await Product.find({});
+  const products = await Product.find({}).populate("subCategory", "subName");
   res.status(200).json({
     success: true,
     products,
