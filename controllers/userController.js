@@ -1,6 +1,6 @@
 const jsonwebtoken = require("jsonwebtoken");
 const catchAsync = require("../middlewares/async");
-const ApiError = require("../utils/apiError");
+const ApiError = require("../utility/apiError");
 const User = require("../Models/User");
 const bcryptjs = require("bcryptjs");
 
