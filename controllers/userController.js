@@ -49,6 +49,7 @@ exports.login = catchAsync(async (req, res) => {
   res.json({
     success: true,
     token,
+    user: isExisted,
   });
 });
 exports.me = catchAsync(async (req, res) => {
