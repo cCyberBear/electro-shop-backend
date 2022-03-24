@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const apiError = require("../utility/apiError");
 
 exports.jwtAuth = (req, res, next) => {
-  const headToken = req.headers.authorization;
+  const headToken = req.headers["Authorization"];
   if (!headToken) {
     throw new apiError(401, "Unauthoriezed");
   }
