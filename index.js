@@ -20,7 +20,7 @@ app.use("/kd/api/v0/category", categoryRouter);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-app.use(express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(catchError);
 app.listen(process.env.PORT, () => {

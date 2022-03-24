@@ -1,5 +1,6 @@
 const catchAsync = require("../middlewares/async");
 const Category = require("../Models/Category");
+const Product = require("../Models/Product");
 const SubCategory = require("../Models/SubCategory");
 
 exports.create = catchAsync(async (req, res) => {
@@ -14,12 +15,24 @@ exports.create = catchAsync(async (req, res) => {
 exports.getAll = catchAsync(async (req, res) => {
   const categories = await Category.find().lean();
   const subCategories = await SubCategory.find().lean();
+  const product = await Product.find().lean();
+
   const newCat = categories.map((cat) => {
     return {
       ...cat,
-      subCategory: subCategories.filter(
-        (sub) => sub.category.toString() === cat._id.toString()
-      ),
+      subCategory: subCategories
+        .filter((sub) => sub.category.toString() === cat._id.toString())
+        .map((sub) => {
+          return {
+            ...sub,
+            total: product.filter((pro) => {
+              const ind = pro.subCategory.findIndex(
+                (val) => val.toString() === sub._id.toString()
+              );
+              return ind !== -1;
+            }).length,
+          };
+        }),
     };
   });
   res.status(200).json({
