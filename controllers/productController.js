@@ -22,3 +22,11 @@ exports.createProduct = catchAsync(async (req, res) => {
     data: product,
   });
 });
+
+exports.getAll = catchAsync(async (req, res) => {
+  const products = await Product.find({});
+  res.status(200).json({
+    success: true,
+    products,
+  });
+});
