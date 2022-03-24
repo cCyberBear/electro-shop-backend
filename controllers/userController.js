@@ -20,7 +20,7 @@ exports.register = catchAsync(async (req, res) => {
   );
   res.status(201).json({
     success: true,
-    data: user,
+    user,
     token,
   });
 });
