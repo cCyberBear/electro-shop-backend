@@ -3,12 +3,10 @@ const apiError = require("../utility/apiError");
 
 exports.jwtAuth = (req, res, next) => {
   const headToken = req.headers.authorization;
-  console.log("head", headToken);
   if (!headToken) {
     throw new apiError(401, "Unauthoriezed");
   }
   const token = headToken.split(" ")[1];
-  console.log(token);
   if (!token) {
     throw new apiError(401, "Unauthoriezed");
   }

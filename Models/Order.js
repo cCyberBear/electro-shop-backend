@@ -13,10 +13,10 @@ let ItemSchema = new Schema({
 });
 const OrderSchema = new Schema(
   {
-    // userId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "User",
-    // },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     items: [ItemSchema],
   },
   {

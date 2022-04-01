@@ -9,6 +9,7 @@ exports.register = catchAsync(async (req, res) => {
   const user = await User.create({ username, email, password, role });
   const token = jsonwebtoken.sign(
     {
+      id: user._id,
       email,
       username,
       role: user.role,
@@ -37,6 +38,7 @@ exports.login = catchAsync(async (req, res) => {
   }
   const token = jsonwebtoken.sign(
     {
+      id: isExisted._id,
       email: isExisted.email,
       username: isExisted.username,
       role: isExisted.role,
@@ -60,6 +62,7 @@ exports.me = catchAsync(async (req, res) => {
     user: data,
   });
 });
+
 exports.changePassword = catchAsync(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const email = req.user.email;
