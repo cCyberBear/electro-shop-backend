@@ -62,6 +62,13 @@ exports.me = catchAsync(async (req, res) => {
     user: data,
   });
 });
+exports.getAllUser = catchAsync(async (req, res) => {
+  const users = await User.find({ role: "customer" }).select("-password");
+  res.json({
+    success: true,
+    users,
+  });
+});
 
 exports.changePassword = catchAsync(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
