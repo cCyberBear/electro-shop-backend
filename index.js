@@ -23,8 +23,20 @@ app.use("/kd/api/v0/user", userRouter);
 app.use("/kd/api/v0/product", productRouter);
 app.use("/kd/api/v0/category", categoryRouter);
 app.use("/kd/api/v0/order", orderRouter);
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.get("/uploads/:filename", (req, res) => {
+  const { filename } = req.params;
+  const file = Mongo.gridfs.find({ filename }).toArray((err, files) => {
+    if (!files || !files.length) {
+      return res.status(404).json({
+        success: false,
+        message: "Not found",
+      });
+    }
+    Mongo.gridfs.openDownloadStreamByName(filename).pipe(res);
+  });
+});
 
 app.use(catchError);
 app.listen(process.env.PORT || 5000, () => {
