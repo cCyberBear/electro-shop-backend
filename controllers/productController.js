@@ -5,6 +5,9 @@ const apiError = require("../utility/apiError");
 exports.createProduct = catchAsync(async (req, res) => {
   const { name, retailPrice, forSale, subCategory, quantity, description } =
     req.body;
+  console.log(req.body);
+  console.log(req.file);
+
   const product = await Product.create({
     name,
     retailPrice,
