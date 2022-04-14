@@ -57,9 +57,10 @@ exports.login = catchAsync(async (req, res) => {
 exports.me = catchAsync(async (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const data = jsonwebtoken.verify(token, process.env.JWT_KEY);
+  const user = await User.findOne({ _id: data.id });
   res.json({
     success: true,
-    user: data,
+    user: user,
   });
 });
 exports.getAllUser = catchAsync(async (req, res) => {
