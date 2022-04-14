@@ -84,3 +84,21 @@ exports.changePassword = catchAsync(async (req, res) => {
     success: true,
   });
 });
+
+exports.userShipment = catchAsync(async (req, res) => {
+  const { fullName, address, phoneNumber } = req.body;
+  const _id = req.user.id;
+  const updated = await User.findByIdAndUpdate(
+    _id,
+    {
+      fullName,
+      address,
+      phoneNumber,
+    },
+    { new: true }
+  );
+  res.status(200).json({
+    success: true,
+    user: updated,
+  });
+});

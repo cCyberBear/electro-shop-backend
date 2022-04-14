@@ -1,5 +1,5 @@
 const catchError = (err, req, res, next) => {
-  console.log(JSON.stringify(err, null, 2));
+  // console.log(JSON.stringify(err, null, 2));
 
   //loi lien  quan den validation mongoose
   if (err.name === "ValidationError") {
