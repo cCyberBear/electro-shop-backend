@@ -18,6 +18,9 @@ const OrderSchema = new Schema(
       ref: "User",
     },
     items: [ItemSchema],
+    total: {
+      type: Number,
+    },
   },
   {
     timestamps: true,

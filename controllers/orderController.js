@@ -1,13 +1,32 @@
 const catchAsync = require("../middlewares/async");
 const Order = require("../Models/Order");
+const Product = require("../Models/Product");
 
 exports.createOrder = catchAsync(async (req, res) => {
+  const shipping = 50;
   const orderReq = req.body;
   const userId = req.user.id;
-  const order = await Order.create({ items: orderReq, user: userId });
+  const products = await Product.find({});
+  let price = 0;
+  const computePrice = orderReq.map((value) => {
+    const id = value.product;
+    const amount = value.quantity;
+    const prods = products.filter((val) => val._id.equals(id));
+    const priceEach = prods.reduce((acc, val) => {
+      return acc + val.retailPrice * amount;
+    }, 0);
+    price += priceEach;
+    return price;
+  });
+  const totalPrice = computePrice[computePrice.length - 1] + shipping;
+  const order = await Order.create({
+    items: orderReq,
+    user: userId,
+    total: totalPrice,
+  });
   res.status(200).json({
     success: true,
-    order,
+    payload: order,
   });
 });
 
