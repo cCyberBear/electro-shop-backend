@@ -40,7 +40,10 @@ exports.createOrder = catchAsync(async (req, res) => {
 });
 
 exports.getAllOrder = catchAsync(async (req, res) => {
-  const order = await Order.find({}).populate("items.product");
+  const order = await Order.find({})
+    .populate("items.product")
+    .populate("user")
+    .select("-user.password");
   res.status(200).json({
     success: true,
     order,
