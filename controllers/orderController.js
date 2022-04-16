@@ -40,19 +40,23 @@ exports.createOrder = catchAsync(async (req, res) => {
 });
 
 exports.getAllOrder = catchAsync(async (req, res) => {
-  const order = await Order.find({})
+  const order = await Order.find({}, {}, { sort: { createdAt: -1 } })
     .populate("items.product")
     .populate("user")
     .select("-user.password");
   res.status(200).json({
     success: true,
-    order,
+    data: order,
   });
 });
 
 exports.userGetThierOrder = catchAsync(async (req, res) => {
   const userId = req.user.id;
-  const order = await Order.find({ user: userId }).populate("items.product");
+  const order = await Order.find(
+    { user: userId },
+    {},
+    { sort: { createdAt: -1 } }
+  ).populate("items.product");
   res.status(200).json({
     success: true,
     data: order,
