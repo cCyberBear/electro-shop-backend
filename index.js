@@ -22,7 +22,7 @@ app.use("/kd/api/v0/user", userRouter);
 app.use("/kd/api/v0/product", productRouter);
 app.use("/kd/api/v0/category", categoryRouter);
 app.use("/kd/api/v0/order", orderRouter);
-// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/image", express.static(path.join(__dirname, "image")));
 
 app.get("/uploads/:filename", (req, res) => {
   const { filename } = req.params;
