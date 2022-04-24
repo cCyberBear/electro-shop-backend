@@ -9,7 +9,6 @@ const categoryRouter = require("./routes/categoryRoute");
 const orderRouter = require("./routes/orderRoute");
 
 const Mongo = require("./config/db");
-const path = require("path");
 
 Mongo.conect();
 const app = express();

@@ -5,8 +5,6 @@ const apiError = require("../utility/apiError");
 exports.createProduct = catchAsync(async (req, res) => {
   const { name, retailPrice, forSale, subCategory, quantity, description } =
     req.body;
-  console.log(req.body);
-  console.log(req.file);
 
   const product = await Product.create({
     name,
@@ -34,5 +32,40 @@ exports.getAll = catchAsync(async (req, res) => {
   res.status(200).json({
     success: true,
     products,
+  });
+});
+
+exports.deleteProduct = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  await Product.deleteOne({ _id: id });
+  const products = await Product.find({}).populate("subCategory", "subName");
+  res.json({
+    success: true,
+    data: products,
+  });
+});
+exports.updateProduct = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const { name, retailPrice, forSale, subCategory, quantity, description } =
+    req.body;
+  await Product.findByIdAndUpdate(
+    { _id: id },
+    {
+      name,
+      retailPrice,
+      forSale,
+      subCategory: JSON.parse(subCategory),
+      quantity,
+      description,
+      img: req.file.filename,
+    },
+    {
+      new: true,
+    }
+  );
+  const products = await Product.find({}).populate("subCategory", "subName");
+  res.json({
+    success: true,
+    data: products,
   });
 });
