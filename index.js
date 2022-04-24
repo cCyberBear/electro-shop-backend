@@ -7,7 +7,7 @@ const userRouter = require("./routes/userRoute");
 const productRouter = require("./routes/productRoute");
 const categoryRouter = require("./routes/categoryRoute");
 const orderRouter = require("./routes/orderRoute");
-
+const path = require("path");
 const Mongo = require("./config/db");
 
 Mongo.conect();
