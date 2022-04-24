@@ -46,6 +46,7 @@ exports.deleteProduct = catchAsync(async (req, res) => {
 });
 exports.updateProduct = catchAsync(async (req, res) => {
   const { id } = req.params;
+  console.log(id);
   const { name, retailPrice, forSale, subCategory, quantity, description } =
     req.body;
   if (req.file) {
@@ -55,7 +56,7 @@ exports.updateProduct = catchAsync(async (req, res) => {
         name,
         retailPrice,
         forSale,
-        // subCategory: JSON.parse(subCategory),
+        subCategory: JSON.parse(subCategory),
         quantity,
         description,
         img: req.file.filename,
@@ -71,7 +72,7 @@ exports.updateProduct = catchAsync(async (req, res) => {
         name,
         retailPrice,
         forSale,
-        // subCategory: JSON.parse(subCategory),
+        subCategory: JSON.parse(subCategory),
         quantity,
         description,
       },
