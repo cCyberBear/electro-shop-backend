@@ -48,21 +48,38 @@ exports.updateProduct = catchAsync(async (req, res) => {
   const { id } = req.params;
   const { name, retailPrice, forSale, subCategory, quantity, description } =
     req.body;
-  await Product.findByIdAndUpdate(
-    { _id: id },
-    {
-      name,
-      retailPrice,
-      forSale,
-      subCategory: JSON.parse(subCategory),
-      quantity,
-      description,
-      img: req.file.filename,
-    },
-    {
-      new: true,
-    }
-  );
+  if (req.file) {
+    await Product.findByIdAndUpdate(
+      { _id: id },
+      {
+        name,
+        retailPrice,
+        forSale,
+        // subCategory: JSON.parse(subCategory),
+        quantity,
+        description,
+        img: req.file.filename,
+      },
+      {
+        new: true,
+      }
+    );
+  } else {
+    await Product.findByIdAndUpdate(
+      { _id: id },
+      {
+        name,
+        retailPrice,
+        forSale,
+        // subCategory: JSON.parse(subCategory),
+        quantity,
+        description,
+      },
+      {
+        new: true,
+      }
+    );
+  }
   const products = await Product.find({}).populate("subCategory", "subName");
   res.json({
     success: true,
