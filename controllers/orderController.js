@@ -62,3 +62,34 @@ exports.userGetThierOrder = catchAsync(async (req, res) => {
     data: order,
   });
 });
+
+exports.getTop = catchAsync(async (req, res) => {
+  const orders = await Order.find({}).populate("items.product");
+  let counter = [];
+  orders.map((val) => {
+    const item = val.items.map((vall) => counter.push(vall));
+    return item;
+  });
+  const topItem = counter.reduce((acc, val) => {
+    const idx = acc.findIndex((vall) => vall.product._id === val.product._id);
+    if (idx === -1) {
+      acc.push(val);
+      return acc;
+    } else {
+      acc[idx].quantity += val.quantity;
+      return acc;
+    }
+  }, []);
+
+  const sorted = topItem.sort((a, b) => {
+    return b.quantity - a.quantity;
+  });
+
+  let productsOnly = [];
+  sorted.map((val) => productsOnly.push(val.product));
+
+  res.status(200).json({
+    success: true,
+    data: productsOnly,
+  });
+});
