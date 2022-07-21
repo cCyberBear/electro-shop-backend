@@ -5,5 +5,6 @@ const upload = require("../middlewares/upload");
 
 router.post("/create", upload.single("product"), PRODUCT.createProduct);
 router.get("/all-product", PRODUCT.getAll);
+router.get("/:id", PRODUCT.getProductById);
 
 module.exports = router;
