@@ -36,6 +36,6 @@ app.get("/uploads/:filename", (req, res) => {
   });
 });
 app.use(catchError);
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log(`Listening to port ${process.env.PORT}`);
 });
