@@ -5,9 +5,7 @@ const apiError = require("../utility/apiError");
 exports.createProduct = catchAsync(async (req, res) => {
   const { name, retailPrice, forSale, subCategory, quantity, description } =
     req.body;
-  if (forSale > retailPrice) {
-    throw new apiError(400, "Please check again sale price");
-  }
+
   const product = await Product.create({
     name,
     retailPrice,
@@ -17,6 +15,12 @@ exports.createProduct = catchAsync(async (req, res) => {
     description,
     img: req.file.filename,
   });
+  if (!product) {
+    res.status(400).json({
+      success: false,
+      data: "can not save",
+    });
+  }
   res.status(200).json({
     success: true,
     data: product,
@@ -30,11 +34,63 @@ exports.getAll = catchAsync(async (req, res) => {
     products,
   });
 });
+
 exports.getProductById = catchAsync(async (req, res) => {
   const { id } = req.params;
   const data = await Product.findOne({ id }).populate("subCategory", "subName");
   res.status(200).json({
     success: true,
     data,
+
+exports.deleteProduct = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  await Product.deleteOne({ _id: id });
+  const products = await Product.find({}).populate("subCategory", "subName");
+  res.json({
+    success: true,
+    data: products,
+  });
+});
+exports.updateProduct = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  const { name, retailPrice, forSale, subCategory, quantity, description } =
+    req.body;
+  if (req.file) {
+    await Product.findByIdAndUpdate(
+      { _id: id },
+      {
+        name,
+        retailPrice,
+        forSale,
+        subCategory: JSON.parse(subCategory),
+        quantity,
+        description,
+        img: req.file.filename,
+      },
+      {
+        new: true,
+      }
+    );
+  } else {
+    await Product.findByIdAndUpdate(
+      { _id: id },
+      {
+        name,
+        retailPrice,
+        forSale,
+        subCategory: JSON.parse(subCategory),
+        quantity,
+        description,
+      },
+      {
+        new: true,
+      }
+    );
+  }
+  const products = await Product.find({}).populate("subCategory", "subName");
+  res.json({
+    success: true,
+    data: products,
   });
 });

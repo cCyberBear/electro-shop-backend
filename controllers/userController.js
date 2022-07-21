@@ -57,9 +57,10 @@ exports.login = catchAsync(async (req, res) => {
 exports.me = catchAsync(async (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const data = jsonwebtoken.verify(token, process.env.JWT_KEY);
+  const user = await User.findOne({ _id: data.id });
   res.json({
     success: true,
-    user: data,
+    user: user,
   });
 });
 exports.getAllUser = catchAsync(async (req, res) => {
@@ -82,5 +83,23 @@ exports.changePassword = catchAsync(async (req, res) => {
   await user.save();
   res.status(200).json({
     success: true,
+  });
+});
+
+exports.userShipment = catchAsync(async (req, res) => {
+  const { fullName, address, phoneNumber } = req.body;
+  const _id = req.user.id;
+  const updated = await User.findByIdAndUpdate(
+    _id,
+    {
+      fullName,
+      address,
+      phoneNumber,
+    },
+    { new: true }
+  );
+  res.status(200).json({
+    success: true,
+    user: updated,
   });
 });

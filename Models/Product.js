@@ -15,7 +15,6 @@ const ProductSchema = new Schema(
     },
     forSale: {
       type: Number,
-      required: [true, "forSale is required"],
     },
     subCategory: [
       {

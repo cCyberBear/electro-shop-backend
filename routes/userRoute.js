@@ -8,5 +8,6 @@ router.post("/login", USER.login);
 router.get("/me", USER.me);
 router.get("/all-user", USER.getAllUser);
 router.patch("/change-password", jwtAuth, USER.changePassword);
+router.patch("/user-shipment", jwtAuth, USER.userShipment);
 
 module.exports = router;

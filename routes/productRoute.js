@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const PRODUCT = require("../controllers/productController");
-const upload = require("../middlewares/upload");
+const mongoUpload = require("../middlewares/uploadMongo");
 
-router.post("/create", upload.single("product"), PRODUCT.createProduct);
+router.post("/create", mongoUpload.single("image"), PRODUCT.createProduct);
+router.post("/update/:id", mongoUpload.single("image"), PRODUCT.updateProduct);
+router.delete("/delete/:id", PRODUCT.deleteProduct);
 router.get("/all-product", PRODUCT.getAll);
 router.get("/:id", PRODUCT.getProductById);
 

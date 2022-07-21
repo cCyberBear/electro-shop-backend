@@ -8,7 +8,7 @@ const UserSchema = new Schema(
     username: {
       type: String,
       required: [true, "Username is required"],
-      minlength: [12, "Must be at least 12 characters"],
+      minlength: [8, "Must be at least 8 characters"],
     },
     email: {
       type: String,
@@ -28,6 +28,15 @@ const UserSchema = new Schema(
     },
     order: {
       type: Array,
+    },
+    fullName: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    phoneNumber: {
+      type: String,
     },
   },
   {
