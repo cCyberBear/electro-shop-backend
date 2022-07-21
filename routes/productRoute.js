@@ -7,5 +7,6 @@ router.post("/create", mongoUpload.single("image"), PRODUCT.createProduct);
 router.post("/update/:id", mongoUpload.single("image"), PRODUCT.updateProduct);
 router.delete("/delete/:id", PRODUCT.deleteProduct);
 router.get("/all-product", PRODUCT.getAll);
+router.get("/:id", PRODUCT.getProductById);
 
 module.exports = router;
