@@ -37,7 +37,11 @@ exports.getAll = catchAsync(async (req, res) => {
 
 exports.getProductById = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const data = await Product.findOne({ id }).populate("subCategory", "subName");
+  console.log(id);
+  const data = await Product.findOne({ _id: id }).populate(
+    "subCategory",
+    "subName"
+  );
   res.status(200).json({
     success: true,
     data,
