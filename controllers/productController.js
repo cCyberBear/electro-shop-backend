@@ -41,7 +41,8 @@ exports.getProductById = catchAsync(async (req, res) => {
   res.status(200).json({
     success: true,
     data,
-
+  });
+});
 exports.deleteProduct = catchAsync(async (req, res) => {
   const { id } = req.params;
   await Product.deleteOne({ _id: id });
